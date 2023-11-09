@@ -1,5 +1,5 @@
 import random
-
+from data import *
 def next_time():
     print('Хотите сыграть ещё раз?')
     print('1. Да\n'
@@ -9,53 +9,67 @@ def next_time():
         return 1
     if k == '2':
         return 0
-def choice_difficult(a):
-    if a == '7':
-        return ' | ♥x7'
-    elif a == '5':
-        return ' | ♥x5'
-    elif a == '3':
-        return ' | ♥x3'
-def read(path = 'words.txt'):
-    a = [str(x) for x in open('words.txt', 'r', encoding='utf-8').readlines()]
-    a = [line.rstrip() for line in a]
-    return a
 
-def game(t):
-    record = 0
-    a = read()
-    word = random.choice(a)
-    word_hunt = '*' * len(word) + choice_difficult(t)
-    print(word)
-    true = True
-    while true == True:
 
-        print(word_hunt)
-        s = str(input('Назовите букву или слово целиком: '))
-        proverka = []
-        if s == word:
-            print('Вы выиграли')
-            yn = next_time()
-            if yn == 1:
-                true = False
-                game(t)
+
+def game(lifes, word_list, record):
+    record = record
+    word_list = word_list
+
+    if word_list == []:
+        print("Вы отгадали все слова! Поздравляю!")
+        get_record(record)
+
+
+    else:
+        word = word_list.pop(random.randrange(len(word_list)))
+        count_lifes = int(lifes)
+        word_hunt = '*' * len(word)
+
+
+        while True:
+            print(f"{word_hunt} | ♥x{count_lifes}")
+            s = str(input('Назовите букву или слово целиком: '))
+            proverka = []
+
+            if s == word:
+                print('Вы выиграли')
+                record += 1
+                break
+
+            if s in word:
+                for i in range( len(word)):
+                    if s == word[i]:
+                        proverka.append(i)
+                for i in proverka:
+                    word_hunt = word_hunt[:i] + s + word_hunt[i + 1:]
             else:
-                true = False
+                print('\nОшибка! Наверное, вы ввели не ту букву, или она уже есть в слове'
+                      '\n-1 жизнь')
+                count_lifes -= 1
+
+            if word_hunt == word:
+                print(f"Вы выиграли. Загаданное слово: {word}\n")
+                record += 1
+                break
 
 
-        if word_hunt[:len(word)] == word:
-            print('Вы выиграли')
-            true = False
-
-        elif s in word:
-            for i in range( len(word)):
-                if s == word[i]:
-                    proverka.append(i)
-            for i in proverka:
-                word_hunt = word_hunt[:i] + s + word_hunt[i + 1:]
+            if count_lifes == 0:
+                print('Ваши жизни закончились! Вы проиграли')
+                get_record(record)
+                break
 
 
+        if count_lifes != 0:
+            next_game = next_time()
+            if next_game == 1:
+                game(lifes, word_list, record)
+            else:
+                get_record(record)
+                print('До новых встреч!')
+        else:
+            print("До новых встреч")
 
 
 
-game('7')
+
