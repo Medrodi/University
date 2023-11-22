@@ -1,3 +1,5 @@
+import sys
+
 import random
 from data import *
 def next_time():
@@ -43,6 +45,9 @@ def game(lifes, word_list, record):
                         proverka.append(i)
                 for i in proverka:
                     word_hunt = word_hunt[:i] + s + word_hunt[i + 1:]
+            elif len(s) == len(word) and s != word:
+                print('Слово неправильное! Вы проиграли')
+                break
             else:
                 print('\nОшибка! Наверное, вы ввели не ту букву, или она уже есть в слове'
                       '\n-1 жизнь')
