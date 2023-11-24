@@ -33,16 +33,20 @@ def count(list):
 
 def translating(list):
     words = list
+    print(len(words))
     translated_list = []
+    progress = 0
     translator = Translator(from_lang="ru", to_lang="en")
     for i in range(len(words)):
         translation = translator.translate(words[i][0])
         translated_list.append((words[i][0], translation, words[i][1]))
+        progress += 1
+        print(f"{progress} из {len(words)}")
     return translated_list
 
 def write_to_file(list):
     words = list
-    with open("Translated_words.csv", 'w', newline='', encoding='utf-8') as file:
+    with open("Translated_word.csv", 'w', newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
         writer.writerow(["Исходное слово|Перевод|Количество упоминаний"])
         for i in range(len(words)):
