@@ -26,7 +26,7 @@ def find_files(path: str, *expansions: str) -> list:
     """
     correct_files = []
     for exp in expansions:
-        file_list = os.listdir(os.getcwd())
+        file_list = os.listdir(path)
         for file in file_list:
             if file[-(len(exp)):] == exp:
                 correct_files.append(file)
