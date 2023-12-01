@@ -28,11 +28,11 @@ def docx_2_pdf(path: str) -> None:
 def compress_pic(path: str) -> None:
     """
     Функция 'compress_pic' принимает параметр 'path' - путь к фалу, который мы хотим сжать в формате str
-    Функция 'compress_pic' сжимает файл с заданным параметро от 0 до 100%
+    Функция 'compress_pic' сжимает файл с заданным параметров от 0 до 100%
     :param path: путь к файлу в формате строки
     :return: None
     """
     image_file = Image.open(path)
     resolution = int(input("Введите параметры сжатия(от 0 до 100%): "))
-    image_file.save(f"{input("Введите название сжатого файла: ")}.jpg", quality=resolution)
+    image_file.save(f"{input("Введите название сжатого файла без расширения: ")}.jpg", quality=resolution)
 

@@ -45,6 +45,7 @@ def translating(list):
     return translated_list
 
 def write_to_file(list):
+
     words = list
     with open("Translated_word.csv", 'w', newline='', encoding='utf-8') as file:
         writer = csv.writer(file)

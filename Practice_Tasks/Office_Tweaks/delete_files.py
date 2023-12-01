@@ -21,24 +21,28 @@ def delete_files(path: str) -> None:
             for file in files:
                 if file.startswith(strka):
                     os.remove(os.path.join(root, file))
+                    print("Файл успешно удалён")
     elif choice == "2":
         strka = input("Введите подстроку: ")
         for root, dirs, files in os.walk(path, topdown=False):
             for file in files:
                 if file.endswith(strka):
                     os.remove(os.path.join(root, file))
+                    print("Файл успешно удалён")
     elif choice == "3":
         strka = input("Введите подстроку: ")
         for root, dirs, files in os.walk(path, topdown=False):
             for file in files:
                 if strka in file:
                     os.remove(os.path.join(root, file))
+                    print("Файл успешно удалён")
     elif choice == "4":
         strka = input("Введите расширение: ")
         for root, dirs, files in os.walk(path, topdown=False):
             for file in files:
-                if strka in file:
+                if file.endswith(strka):
                     os.remove(os.path.join(root, file))
+                    print("Файл успешно удалён")
     else:
         print("Ошибка! Попробуйте ещё раз")
         delete_files()
