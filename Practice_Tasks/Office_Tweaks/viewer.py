@@ -4,7 +4,12 @@ from converter import *
 from delete_files import *
 from directories import *
 
-def show():
+def show() -> None:
+    """
+    Функция 'show'  позволяет пользователю взаимодействовать со всеми функциями пакета.
+    Функция 'show' предоставляет выбор между функциями пакета, далее он выполняет выбранную функцию
+    :return: None
+    """
     while True:
         path = os.getcwd()
         print(f"\nТекущий каталог: {path}\n")
@@ -30,7 +35,10 @@ def show():
             find_pic(path)
 
         elif c == "4":
-            delete_file(path)
+            delete(path)
+
+        elif c == "5":
+            break
 
 
 

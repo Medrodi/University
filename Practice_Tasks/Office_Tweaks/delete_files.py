@@ -1,34 +1,13 @@
 import os
 
-def delete_file(path: str) -> None:
-    '''
-    Функция `delete_file` принимает параметр `path`, который является строкой представляющей путь к файлу или директории.
-    После чего, функция `delete_file` проверяет, является ли переданный путь файлом с помощью метода `os.path.isfile`.
-    Если он является файлом, то функция удаляет файл с помощью метода `os.remove`.
-
-    Если переданный путь не является файлом, то происходит обход директории с помощью метода `os.walk`.
-    Для каждого файла в директории и ее поддиректориях происходит удаление файла с помощью метода `os.remove`.
-    Затем для каждой поддиректории происходит удаление директории с помощью метода `os.rmdir`.
-    Наконец, удаляется исходная директория с помощью метода `os.rmdir`.
-
-    :param path: Путь к файлу/папке
-    :return: None
-    '''
-    # if os.path.isfile(path):
-    #     os.remove(path)
-    # else:
-    #     for root, dirs, files in os.walk(path, topdown=False):
-    #         for file in files:
-    #             os.remove(os.path.join(root, file))
-    #         for dir in dirs:
-    #             os.rmdir(os.path.join(root, dir))
-    #     os.rmdir(path)
-
-# В оптимизированном коде используется функция os.walk, которая позволяет рекурсивно обойти итератор
-# с корневым путем path, итерируясь по всем подкаталогам и файлам. Мы сначала удаляем все файлы,
-# а затем удаляем все пустые подкаталоги, начиная с самого глубокого уровня.
-# Это позволяет избежать проблемы с удалением непустых папок.
 def delete_files(path: str) -> None:
+    """
+    Функция `delete_files` принимает параметр `path`, который является строкой представляющей путь к директории.
+    Функция 'delete_files' предоставляет пользователю выбрать, по какому критерию будут удалены файлы. Далее
+    функция 'delete_files' выполняет удаление необходимых файлов с помощью метода 'os.remove'
+    :param path: путь к директории в формате строки
+    :return: None
+    """
     print("Выберите действие: ")
     print(f"1. Удалить все файлы начинающиеся на определённую подстроку\n"
           f"2. Удалить все файлы заканчивающиеся на определённую подстроку\n"
@@ -40,16 +19,36 @@ def delete_files(path: str) -> None:
         strka = input("Введите подстроку: ")
         for root, dirs, files in os.walk(path, topdown=False):
             for file in files:
-                print(file)
-
-
+                if file.startswith(strka):
+                    os.remove(os.path.join(root, file))
+    elif choice == "2":
+        strka = input("Введите подстроку: ")
+        for root, dirs, files in os.walk(path, topdown=False):
+            for file in files:
+                if file.endswith(strka):
+                    os.remove(os.path.join(root, file))
+    elif choice == "3":
+        strka = input("Введите подстроку: ")
+        for root, dirs, files in os.walk(path, topdown=False):
+            for file in files:
+                if strka in file:
+                    os.remove(os.path.join(root, file))
+    elif choice == "4":
+        strka = input("Введите расширение: ")
+        for root, dirs, files in os.walk(path, topdown=False):
+            for file in files:
+                if strka in file:
+                    os.remove(os.path.join(root, file))
+    else:
+        print("Ошибка! Попробуйте ещё раз")
+        delete_files()
 
 def delete(path: str) -> bool:
     '''
     Функция `delete` принимает параметр `path`, который является строкой представляющей путь к файлу или директории.
     Функция `delete` проверяет, существует ли файл или директория по указанному пути с помощью метода `os.path.exists`.
     Если указанный путь не существует, то функция возвращает `False`.
-    Если путь существует, то выполнение передается функции `delete_file`, которая удаляет файл или директорию.
+    Если путь существует, то выполнение передается функции `delete_files`, которая удаляет файлы
 
     :param path: Путь к объекту в формате строки
     :return: True - в случае успешного удаления объекта. Во всех остальных случаях - False.
@@ -57,5 +56,5 @@ def delete(path: str) -> bool:
     if not os.path.exists(path):
         return False
 
-    delete_file(path)
+    delete_files(path)
     return True
